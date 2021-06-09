@@ -1,0 +1,22 @@
+body{
+	background: linear-gradient(white, rgb(165, 170, 165), white) fixed no-repeat;
+}
+p{
+	z-index: 1;	
+}
+h1{
+	z-index: 1;
+}
+#defaultCanvas0{
+	z-index: 0;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	border-style: solid;
+	border-radius: 10px;
+	border-width: 3px;
+	border-color: rgb(207,181,59);
+}
