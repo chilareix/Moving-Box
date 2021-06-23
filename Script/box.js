@@ -1,66 +1,91 @@
-function movingBox(){
-	//integers
+function movingBox() {
+	moveAction = {
+		"w": async function (obj) { //w
+			obj.posY = constrain(obj.posY - obj.Speed, obj.Width/2, height - obj.Width/2);
+		},
+		"a": async function (obj) { //a
+			obj.posX = constrain(obj.posX - obj.Speed, obj.Width/2, width - obj.Width/2);
+		},
+		"s": async function (obj) { //s
+			obj.posY = constrain(obj.posY + obj.Speed, obj.Width/2, height - obj.Width/2);
+		},
+		"d": async function (obj) { //d
+			obj.posX = constrain(obj.Speed + obj.posX, obj.Width/2, width - obj.Width/2);
+		},
+		"r": async function (obj) { //r
+			obj.Width = obj.defW;
+			obj.posX = obj.defX;
+			obj.posY = obj.defY;
+			obj.Speed = obj.defXS;
+			currentX(obj.Speed);
+		}
+	};
+	
+
 	this.red = 255;
 	this.green = 0;
 	this.blue = 0;
-	//Default
-		//Pos
+
 	this.defX = width/2;
 	this.defY = height/2;
-		//Size
+
 	this.defW = 20;
-	this.defH = 20;
-		//Speed
+
 	this.defXS = 10;
 	this.defYS = 10;
-	//Current
-		//Pos
+
 	this.posX = width/2;
 	this.posY = height/2;
-		//Size
+
 	this.Width = 20;
-	this.Height = 20;
-		//Speed
-	this.ySpeed = 10;
-	this.xSpeed = 10;
+
+	this.Speed = 10;
 	
-	this.visible = function(){
+	this.visible = function () {
+		this.move();
 		this.rainbow();
 		stroke(this.red, this.green, this.blue);
 		fill(this.red, this.green, this.blue);
 		rectMode(CENTER);
-		rect(this.posX, this.posY, this.Width, this.Height);
+		rect(this.posX, this.posY, this.Width, this.Width);
 	}
 	
 	this.Grow = function(){
 		this.Width += 5;
-		this.Height += 5;
-	}	
-	this.move = function(){
-		
-		this.posX = constrain(this.posX, 0, width);
-		this.posY = constrain(this.posY, 0, height);
-		
-		if(keyIsPressed){
-			if(key == 'w'){
-				this.posY -= this.ySpeed;
-			}else if(key == 'a'){
-				this.posX -= this.xSpeed;
-			}else if(key == 's'){
-				this.posY += this.ySpeed;
-			}else if(key == 'd'){
-				this.posX += this.xSpeed;
-			}else if(key == 'r'){
-				this.Width = this.defW;
-				this.Height = this.defH;
-				this.posX = this.defX;
-				this.posY = this.defY;
-				this.xSpeed = this.defXS;
-				this.ySpeed = this.defYS;
-				currentX(this.xSpeed);
-			}
+	}
+	this.move = function () {
+		this.moveLeft();
+		this.moveRight();
+		this.moveUp();
+		this.moveDown();
+		this.reset();
+    }
+	this.moveUp = async function(){
+
+		if (keyMap['w']) {
+			moveAction['w'](this);
 		}
 	}
+	this.moveDown = async function () {
+		if (keyMap['s']) {
+			moveAction['s'](this);
+        }
+	}
+	this.moveLeft = async function () {
+		if (keyMap['a']) {
+			moveAction['a'](this);
+        }
+	}
+	this.moveRight = async function () {
+		if (keyMap['d']) {
+			moveAction['d'](this);
+        }
+	}
+	this.reset = async function () {
+		if (keyMap['r']) {
+			moveAction['r'](this);
+        }
+    }
 	this.rainbow = function(){
 		if(this.red == 255 && this.green < 255 && this.blue == 0){
 			this.green++;
@@ -81,11 +106,8 @@ function movingBox(){
 	}
 }
 function currentX(){
-	document.getElementById("xspeed").innerHTML = "<strong>X Speed</strong>: " + moveBox.xSpeed;
+	document.getElementById("xspeed").innerHTML = "<strong>Current Speed</strong>: " + moveBox.Speed;
 }
 function currentW(){
 	document.getElementById("boxw").innerHTML = "<strong>Box Width</strong>: " + moveBox.Width;
-}
-function currentH(){
-	document.getElementById("boxh").innerHTML = "<strong>Box Height</strong>: " + moveBox.Height;
 }

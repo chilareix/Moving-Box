@@ -13,9 +13,7 @@ function blueBite(){
 			this.posX = random(width);
 			this.posY = random(height);
 			moveBox.Width += 5;
-			moveBox.Height += 5;
 			currentW();
-			currentH();
 		}
 	}
 }
@@ -33,9 +31,8 @@ function redBite(){
 		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
 			this.posX = random(width);
 			this.posY = random(height);
-			if(moveBox.xSpeed > 10){
-				moveBox.xSpeed -= 5;
-				moveBox.ySpeed -= 5;
+			if(moveBox.Speed > 10){
+				moveBox.Speed -= 5;
 				currentX();
 			}
 		}
@@ -57,8 +54,7 @@ function greenBite(){
 		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
 			this.posX = random(width);
 			this.posY = random(height);
-			moveBox.xSpeed += 5;
-			moveBox.ySpeed += 5;
+			moveBox.Speed += 5;
 			currentX();
 		}
 	}
@@ -82,9 +78,7 @@ function yellowBite(){
 			this.posY = random(height);
 			if(moveBox.Width > 10){
 				moveBox.Width -= 5;
-				moveBox.Height -= 5;
 				currentW();
-				currentH();
 			}
 		}
 		
