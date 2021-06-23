@@ -41,7 +41,3 @@ function draw(){
 	gbite.whenEaten();
 	ybite.whenEaten();
 }
-
-eor = function(){
-
-}
