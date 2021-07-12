@@ -1,86 +1,55 @@
-function blueBite(){
-	this.posX = random(width);
-	this.posY = random(height);
-	this.r = 20;
-	
-	this.visible = function(){
-		ellipseMode(CENTER);
-		fill(0, 0, 255);
-		ellipse(this.posX, this.posY, this.r, this.r);
-	}
-	this.whenEaten = function(){
-		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
-			this.posX = random(width);
-			this.posY = random(height);
-			moveBox.Width += 5;
-			currentW();
-		}
-	}
-}
-function redBite(){
-	this.posX = random(width);
-	this.posY = random(height);
-	this.r = 20;
-	
-	this.visible = function(){
-		ellipseMode(CENTER);
-		fill(255, 0, 0);
-		ellipse(this.posX, this.posY, this.r, this.r);
-	}
-	this.whenEaten = function(){
-		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
-			this.posX = random(width);
-			this.posY = random(height);
-			if(moveBox.Speed > 10){
-				moveBox.Speed -= 5;
-				currentX();
-			}
-		}
-	}
-}
+BEHAVIORS = {
+	"INCREASE BOX SIZE": function () {
+		moveBox.Width += 3;
+		updateWidth();
+	},
+	"DECREASE BOX SIZE": function () {
+		moveBox.Width -= 3;
+		updateWidth();
+	},
+	"INCREASE BOX SPEED": function () {
+		moveBox.Speed += 0.5;
+		updateSpeed();
+	},
+	"DECREASE BOX SPEED": function () {
+		moveBox.Speed -= 0.5;
+		updateSpeed();
+	},
 
-function greenBite(){
-	this.posX = random(width);
-	this.posY = random(height);
-	this.r = 20;
-	
-	
-	this.visible = function(){
-		ellipseMode(CENTER);
-		fill(0, 255, 0);
-		ellipse(this.posX, this.posY, this.r, this.r);
+};
+class bite {
+	pos;
+	r;
+	red;
+	green;
+	blue;
+	behavior;
+	/**
+	 * @param {any} red
+	 * @param {any} green
+	 * @param {any} blue
+	 * @param {any} behaviorAsString Options are INCREASE | DECREASE, BOX, SIZE | SPEED as a string (e.g. "DECREASE BOX SIZE" or "INCREASE BOX SIZE")
+	 *Not case sensitive*
+	 */
+	constructor(red, green, blue, behaviorAsString) {
+		this.r = 20;
+		this.pos = createVector(random(width), random(height));
+		this.red = red;
+		this.green = green;
+		this.blue = blue;
+		this.behavior = behaviorAsString;
 	}
-	this.whenEaten = function(){
-		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
-			this.posX = random(width);
-			this.posY = random(height);
-			moveBox.Speed += 5;
-			currentX();
+	show() {
+		ellipseMode(CENTER);+
+		fill(this.red, this.green, this.blue);
+		ellipse(this.pos.x, this.pos.y, this.r, this.r);
+	}
+	act() {
+		if (this.behavior.toUpperCase() in BEHAVIORS) {
+			BEHAVIORS[this.behavior.toUpperCase()]();
+		} else {
+			console.log("BEHAVIOR DOES NOT EXIST");
 		}
-	}
-}
-
-function yellowBite(){
-	this.posX = random(width);
-	this.posY = random(height);
-	this.r = 20;
-	
-	
-	this.visible = function(){
-		ellipseMode(CENTER);
-		fill(255, 255, 0);
-		ellipse(this.posX, this.posY, this.r, this.r);
-	}
-	
-	this.whenEaten = function(){
-		if(dist(this.posX, this.posY, moveBox.posX, moveBox.posY) < (moveBox.Width / 2 + this.r/2)){
-			this.posX = random(width);
-			this.posY = random(height);
-			if(moveBox.Width > 10){
-				moveBox.Width -= 5;
-				currentW();
-			}
-		}
-		
-	}
+		this.pos = createVector(random(width), random(height));
+    }
 }
